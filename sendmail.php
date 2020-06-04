@@ -1,7 +1,6 @@
 <?php
 require('functions.inc.php');
-require('db_functions.inc.php');
-$usercode = "123";
+require('db_functions.inc.php');echo "ok2";exit;
 //var_dump($_POST);exit;
 //var_dump($_FILES);exit;
 
@@ -67,7 +66,7 @@ if(isset($_POST['selectedemails']) && isset($_POST['message']) && $_POST['select
         $body .="Content-Transfer-Encoding: base64\r\n";
         $body .="X-Attachment-Id: ".rand(1000, 99999)."\r\n\r\n";
         $body .= $encoded_content; // Attaching the encoded file with email
-
+        echo "ok";exit;
         $insertid = insertUploadedFile($tmp_name,$name,$size,$type);
 		array_push($attachids,$insertid);
 		//   unlink($name); // delete the file after attachment sent.
@@ -75,20 +74,18 @@ if(isset($_POST['selectedemails']) && isset($_POST['message']) && $_POST['select
 	$attach_ids_str = implode(",",$attachids);
 	$insert_content_id = insertMailContent($subject, $message);
 	$toEmailsArr = explode(",",$recipient_email);
+	$allMailResultArr = array();
 	foreach($toEmailsArr as $key=>$toEmail){
-		 $sentMailResult = mail($toEmail, $subject, $body, $headers);
-		insertSentMail($toEmail,$sentMailResult,$insert_content_id, $attach_ids_str);
-	   
-    if($sentMailResult)
-    {
-        echo $key." - File Sent Successfully.";
-     
-    }
-    else
-    {
-       echo $key." - "; die("Sorry but the email could not be sent. 
-                    Please go back and try again!");
-    }
+		 //$sentMailResult = mail($toEmail, $subject, $body, $headers);
+        $sentMailResult = true;
+        insertSentMail($toEmail,$sentMailResult,$insert_content_id, $attach_ids_str);
+        array_push($allMailResultArr, "$toEmail => $sentMailResult");
+
 	}
+
+	print_r($allMailResultArr);
+
+
+
 }
 ?>

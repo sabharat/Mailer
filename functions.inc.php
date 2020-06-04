@@ -14,6 +14,7 @@ function insertUploadedFile($tmp_name,$name,$size,$type)
                 if (is_dir(ATTACHMENT_SAVED_DIR."/" . $uploadedFileName) == false) {
 					 move_uploaded_file($tmp_name, ATTACHMENT_SAVED_DIR."/" . $uploadedFileName);
                     $insert_id = insertAttachedFiles($name,$uploadedFileName,$type,$size);
+
                     return $insert_id;                
                 }
 }

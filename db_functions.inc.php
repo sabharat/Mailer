@@ -1,9 +1,8 @@
 <?php
 require('db.inc.php');
-require('constants.php');
 function getAORdetails(){
     $con = getConnection();
-    $sql = "select bar_id, title, name,  email as emailid from bar where email is not null && email !='' && if_aor='Y' order by bar_id ASC";
+    $sql = "select bar_id, title, name,  email as emailid from bar where email is not null && email !='' && if_aor='Y'  && if_sen='N' && isdead='N' order by bar_id ASC";
     $res =  mysql_query($sql, $con);
     closeConnection($con);
     return $res;
@@ -17,8 +16,9 @@ function insertAttachedFiles($name,$uploadedFileName,$type,$size){
     if(! $res ) {
         die('Could not enter data: ' . mysql_error());
     }
+    $insertid = mysql_insert_id();
     closeConnection($con);
-	return mysql_insert_id();
+	return $insertid;
 }
 
 function insertMailContent($subject, $content){
@@ -28,20 +28,22 @@ function insertMailContent($subject, $content){
     if(! $res ) {
         die('Could not enter data: ' . mysql_error());
     }
+    $insertid = mysql_insert_id();
     closeConnection($con);
-	return mysql_insert_id();
+    return $insertid;
 }
 
 function insertSentMail($toEmail,$sentMailResult,$insert_content_id, $attach_ids_str){
     $con = getConnection();
-    $date = sysdate();
-    $sql = "insert into mailer_sent(emailid,status,sent_by,mailer_contents_id,mailer_attachments_id,sent_time) 
+    $date = date();
+    $sql = "insert into mailer_sent(email_id,status,sent_by,mailer_contents_id,mailer_attachments_id,sent_time) 
     values ('".$toEmail."','".$sentMailResult."','".USERCODE."','".$insert_content_id."','".$attach_ids_str."','".$date."')";
     $res = mysql_query($sql, $con);
     if(! $res ) {
         die('Could not enter data: ' . mysql_error());
     }
+    $insertid = mysql_insert_id();
     closeConnection($con);
-    return mysql_insert_id();
+    return $insertid;
 }
 ?>

@@ -32,10 +32,10 @@ $res = getAORdetails();
                     <h4>Please Select Action</h4>
                 </div>
                 <div class="col-sm-6">
-                    <select name="actiontype" id="actiontype"  onchange="showHideRowDiv(this.value)">
+                    <select name="actiontype" id="actiontype" onchange="showHideRowDiv(this.value)">
                         <option selected value="searchbartypeselect">Search AOR</option>
                         <option value="inputtypeselect">Enter Email</option>
-                      <!--  <option value="diarynoselect">Search by DiaryNo.</option>-->
+                        <!--  <option value="diarynoselect">Search by DiaryNo.</option>-->
                     </select>
                 </div>
             </div>
@@ -47,7 +47,9 @@ $res = getAORdetails();
                         <input style="width: 100%" type="email" name="inputmail" id="inputmail"
                                placeholder="Enter Emails Separated with Comma[,]"/>
 
-                        <button style="margin-top: 10px" onclick="showHideRowDiv('showmailformfrominput')">Click to Select</button>
+                        <button style="margin-top: 10px" onclick="showHideRowDiv('showmailformfrominput')">Click to
+                            Select
+                        </button>
 
                     </div>
                 </div>
@@ -71,7 +73,7 @@ $res = getAORdetails();
             </div>
         </div>
 
-       <!-- Mail Form-->
+        <!-- Mail Form-->
 
         <div class="col-lg-6">
             <div class="row" id="mailformrow">
@@ -80,26 +82,27 @@ $res = getAORdetails();
                         <div class="form-group">
                             <h3><label>Send Email To :</label></h3>
                             <textarea rows="3" style="width: 100%" name="selectedemails" id="selectedemails"
-                                      disabled></textarea>
+                                      readonly required></textarea>
                         </div>
 
                         <div class="form-group">
                             <h3><label>Subject</label></h3>
                             <input style="width: 100%" type="text" name="subject"
-                                   placeholder="Enter Mail Subject Here!"/>
+                                   placeholder="Enter Mail Subject Here!" maxlength="50" required/>
                         </div>
 
                         <div class="form-group">
                             <h3><label>Message</label></h3>
                             <textarea rows="3" name="message" class="form-control"
-                                      placeholder="Type Your Message"></textarea>
+                                      placeholder="Type Your Message" maxlength="1000" required></textarea>
                         </div>
 
                         <div class="form-group">
                             <h4><label>Select Attachments if Any</label></h4>
                         </div>
                         <div class="form-group" id="moreUploads"></div>
-                        <div class="form-group" id="moreUploadsLink" style="display:block;"><a href="javascript:addFileInput();">Attach File</a></div>
+                        <div class="form-group" id="moreUploadsLink" style="display:block;"><a
+                                    href="javascript:addFileInput();">Attach File</a></div>
                         <div class="form-group">
                             <input name="submit" type="submit" value="Send" class="btn btn-raised btn-lg btn-warning"/>
                         </div>
@@ -113,7 +116,7 @@ $res = getAORdetails();
 <script src="js/app.js"></script>
 
 <script>
-    window.onload = showHideRowDiv(0);
+    window.load = showHideRowDiv(0);
 
     function showHideRowDiv(id) {
         //alert("Inside 0");
@@ -142,43 +145,40 @@ $res = getAORdetails();
         }
     }
 
-    $('#mail_form').submit(function (e) {
-        $(':disabled').each(function (e) {
-            $(this).removeAttr('disabled');
-        })
-    });
 
     var upload_number = 1;
+
     function addFileInput() {
         var d = document.createElement("div");
         var file = document.createElement("input");
         file.setAttribute("type", "file");
-        file.setAttribute("name", "attachment"+upload_number);
-        file.setAttribute("id", "attachment"+upload_number);
-        file.setAttribute("onChange",'$("#moreUploadsLink").css({ display: "block" });');
+        file.setAttribute("name", "attachment" + upload_number);
+        file.setAttribute("id", "attachment" + upload_number);
+        file.setAttribute("onChange", '$("#moreUploadsLink").css({ display: "block" });');
         d.appendChild(file);
 
         var remove = document.createElement("button");
-        remove.setAttribute("type","button");
-        remove.setAttribute("name","remove"+upload_number);
-        remove.setAttribute("id","remove"+upload_number);
-        remove.setAttribute("class","btn btn-raised btn-lg btn-danger");
-        remove.setAttribute("onclick","removeFileInput("+upload_number+")");
+        remove.setAttribute("type", "button");
+        remove.setAttribute("name", "remove" + upload_number);
+        remove.setAttribute("id", "remove" + upload_number);
+        remove.setAttribute("class", "btn btn-raised btn-lg btn-danger");
+        remove.setAttribute("onclick", "removeFileInput(" + upload_number + ")");
         d.appendChild(remove);
 
         document.getElementById("moreUploads").appendChild(d);
-        $("#moreUploadsLink").css({ display: "none" });
+        $("#moreUploadsLink").css({display: "none"});
         upload_number++;
     }
 
-    function removeFileInput(upload_number){
-        if($("#attachment"+upload_number).get(0).files.length == 0){
-            $("#moreUploadsLink").css({ display: "block" });
+    function removeFileInput(upload_number) {
+        if ($("#attachment" + upload_number).get(0).files.length == 0) {
+            $("#moreUploadsLink").css({display: "block"});
         }
 
-        $("#attachment"+upload_number).remove();
-        $("#remove"+upload_number).remove();
+        $("#attachment" + upload_number).remove();
+        $("#remove" + upload_number).remove();
     }
+
 
 </script>
 

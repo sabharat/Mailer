@@ -4,9 +4,9 @@ require('db_functions.inc.php');
 
 function insertUploadedFile($tmp_name,$name,$size,$type)
 {
-              //  $fileExtension = pathinfo($name, PATHINFO_EXTENSION);
+                $fileExtension = pathinfo($name, PATHINFO_EXTENSION);
 
-                $uploadedFileName = USERCODE . "_" . time() . "_" . rand(1000, 99999) . "." . $type;
+                $uploadedFileName = USERCODE . "_" . time() . "_" . rand(1000, 99999) . "." . $fileExtension;
 
                 if (is_dir(ATTACHMENT_SAVED_DIR) == false) {
                     mkdir(ATTACHMENT_SAVED_DIR, 0755, true);        // Create directory if it does not exist

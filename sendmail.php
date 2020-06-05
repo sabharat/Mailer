@@ -106,10 +106,20 @@ if (isset($_POST['selectedemails']) && isset($_POST['message']) && $_POST['selec
             <h2>Status of the Emails Sent!</h2>
             <table class="table table-bordered table-responsive-lg">
                 <thead>
-                <tr><th>Email</th><th>Status</th></tr>
+                <tr>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
                 </thead>
-            <?php foreach ($allMailResultArr as $email => $status){ ?>
-                <tr><td><?= $email?></td><td><?php if($status==1){echo 'SUCCESS';}else{echo 'FAILED';}?></td></tr>
+                <?php foreach ($allMailResultArr as $email => $status) { ?>
+                    <tr>
+                        <td><?= $email ?></td>
+                        <td><?php if ($status == 1) {
+                                echo 'SUCCESS';
+                            } else {
+                                echo 'FAILED';
+                            } ?></td>
+                    </tr>
                 <?php } ?>
             </table>
         </div>

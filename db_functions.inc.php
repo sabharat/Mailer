@@ -10,8 +10,8 @@ function getAORdetails(){
 
 function insertAttachedFiles($name,$uploadedFileName,$type,$size){
     $con = getConnection();
-    $sql = "insert into mailer_attachments(file_display_name, file_path, file_name, file_type,file_size, upload_time, upload_by)
-    values ('".$name."','".ATTACHMENT_SAVED_DIR."','".$uploadedFileName."','".$type."','".$size."','','".USERCODE."')";
+    $sql = "insert into mailer_attachments(file_display_name, file_path, file_name, file_type,file_size,upload_by)
+    values ('".$name."','".ATTACHMENT_SAVED_DIR."','".$uploadedFileName."','".$type."','".$size."','".USERCODE."')";
     $res = mysql_query($sql, $con);
     if(! $res ) {
         die('Could not enter data: ' . mysql_error());
@@ -35,9 +35,8 @@ function insertMailContent($subject, $content){
 
 function insertSentMail($toEmail,$sentMailResult,$insert_content_id, $attach_ids_str){
     $con = getConnection();
-    $date = date();
-    $sql = "insert into mailer_sent(email_id,status,sent_by,mailer_contents_id,mailer_attachments_id,sent_time) 
-    values ('".$toEmail."','".$sentMailResult."','".USERCODE."','".$insert_content_id."','".$attach_ids_str."','".$date."')";
+    $sql = "insert into mailer_sent(email_id,status,sent_by,mailer_contents_id,mailer_attachments_id) 
+    values ('".$toEmail."','".$sentMailResult."','".USERCODE."','".$insert_content_id."','".$attach_ids_str."')";
     $res = mysql_query($sql, $con);
     if(! $res ) {
         die('Could not enter data: ' . mysql_error());

@@ -21,7 +21,7 @@ $res = getAORdetails();
 
 </head>
 <body>
-<div class="container">
+<div class="container" style="width: 100%">
     <div class="row">
 
         <!--Mail Ids Selection-->
@@ -102,7 +102,7 @@ $res = getAORdetails();
                         </div>
                         <div class="form-group" id="moreUploads"></div>
                         <div class="form-group" id="moreUploadsLink" style="display:block;"><a
-                                    href="javascript:addFileInput();">Attach File</a></div>
+                                    href="javascript:addFileInput();"><span class="fa fa-paperclip"></span> Attach File</a><h6>(Max Size=4mb)</h6></div>
                         <div class="form-group">
                             <input name="submit" type="submit" value="Send" class="btn btn-raised btn-lg btn-warning"/>
                         </div>
@@ -152,9 +152,10 @@ $res = getAORdetails();
         var d = document.createElement("div");
         var file = document.createElement("input");
         file.setAttribute("type", "file");
+        file.setAttribute("accept", ".jpg,.jpeg,.png,.zip,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         file.setAttribute("name", "attachment" + upload_number);
         file.setAttribute("id", "attachment" + upload_number);
-        file.setAttribute("onChange", '$("#moreUploadsLink").css({ display: "block" });');
+        file.setAttribute("onChange", "validateFileInput(" + upload_number + ")");
         d.appendChild(file);
 
         var remove = document.createElement("button");
@@ -168,6 +169,24 @@ $res = getAORdetails();
         document.getElementById("moreUploads").appendChild(d);
         $("#moreUploadsLink").css({display: "none"});
         upload_number++;
+    }
+
+    function validateFileInput(upload_number) {
+        const fi = document.getElementById('attachment'+upload_number);
+        // Check if any file is selected.
+        if (fi.files.length > 0) {
+            for (i = 0; i <= fi.files.length - 1; i++) {
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 4096) {
+                    alert("File too Big, please select a file less than 4mb");
+                    fi.value = null;
+                    return;
+                }
+            }
+        }
+        $("#moreUploadsLink").css({ display: "block" });
     }
 
     function removeFileInput(upload_number) {

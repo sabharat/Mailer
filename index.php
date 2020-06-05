@@ -10,7 +10,7 @@ $res = getAORdetails();
     <meta charset="UTF-8">
     <title>E-Mail Notifying System</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
+    <link rel="stylesheet" href="css/fontawesome.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -161,7 +161,7 @@ $res = getAORdetails();
         remove.setAttribute("type", "button");
         remove.setAttribute("name", "remove" + upload_number);
         remove.setAttribute("id", "remove" + upload_number);
-        remove.setAttribute("class", "btn btn-raised btn-lg btn-danger");
+        remove.setAttribute("class", "fas fa-times");
         remove.setAttribute("onclick", "removeFileInput(" + upload_number + ")");
         d.appendChild(remove);
 

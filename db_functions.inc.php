@@ -45,4 +45,40 @@ function insertSentMail($toEmail,$sentMailResult,$insert_content_id, $attach_ids
     closeConnection($con);
     return $insertid;
 }
+
+function getCaseTypeDetails(){
+    $con = getConnection();
+    $sql = "SELECT casecode, skey, casename,short_description FROM casetype WHERE display = 'Y' AND casecode!=9999 ORDER BY short_description";
+    $res = mysql_query($sql, $con);
+    if(! $res ) {
+        die('Could not get data: ' . mysql_error());
+    }
+    closeConnection($con);
+    return $res;
+}
+
+function getAORDetailsbyDiaryNo($diaryNumber,$diaryYear){
+    $diaryNumYear = $diaryNumber.$diaryYear;
+    $con = getConnection();
+    $sql = "SELECT bar.bar_id,bar.email,bar.name from bar inner join advocate on advocate.advocate_id=bar.bar_id where advocate.diary_no=".$diaryNumYear;
+    $res = mysql_query($sql, $con);
+    if(! $res ) {
+        die('Could not get data: ' . mysql_error());
+    }
+    closeConnection($con);
+    return $res;
+}
+
+function getPartyDetailsbyDiaryNo($diaryNumber,$diaryYear){
+   // $diaryNumYear = $diaryNumber.$diaryYear;
+    $con = getConnection();
+    $sql = "SELECT partyname,email from party where diary_no=".$diaryNumber;
+    $res = mysql_query($sql, $con);
+    if(! $res ) {
+        die('Could not get data: ' . mysql_error());
+    }
+    closeConnection($con);
+    return $res;
+}
+
 ?>

@@ -9,11 +9,14 @@ require('functions.inc.php');
 
 if (isset($_POST['selectedemails']) && isset($_POST['message']) && $_POST['selectedemails'] != "" && $_POST['message'] != "") {
 
-    $from_email = 'sender@sci.nic.in'; //from mail, sender email addrress
     $recipient_email = $_POST['selectedemails']; //recipient email addrress
-
+    
     $sender_name = 'Sender Name'; //sender name
+    $from_email = 'sender@sci.nic.in'; //from mail, sender email addrress
+    $from = $sender_name."<".$from_email.">";
+    
     $reply_to_email = 'senderemail'; //sender email, it will be used in "reply-to" header
+    
     $subject = $_POST["subject"]; //subject for the email
     $message = $_POST["message"]; //body of the email
 
@@ -22,7 +25,7 @@ if (isset($_POST['selectedemails']) && isset($_POST['message']) && $_POST['selec
 
     //header
     $headers = "MIME-Version: 1.0\r\n"; // Defining the MIME version
-    $headers .= "From:" . $from_email . "\r\n"; // Sender Email
+    $headers .= "From:" . $from . "\r\n"; // Sender
     $headers .= "Reply-To: " . $reply_to_email . "\r\n"; // Email addrress to reach back
     $headers .= "Content-Type: multipart/mixed;\r\n"; // Defining Content-Type
     $headers .= "boundary = $boundary\r\n"; //Defining the Boundary

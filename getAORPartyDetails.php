@@ -88,25 +88,25 @@ if ($_REQUEST['d_no'] != '' and $_REQUEST['d_yr'] != '') {
             <h3 align="center">AOR details</h3>
             <table class="table table-bordered">
                 <tr><th>Select</th><th>Name</th><th>Email</th></tr>
-            <?php
-            while ($row1 = mysql_fetch_array($res1)) {
-                ?>
-                <tr><td><input type="checkbox" id="<?php echo "aor##".$row1['email']?>" name="<?php echo "aor##".$row1['email']?>"></td><td><?= $row1['name']?></td><td><?= $row1['email']?></td></tr>
                 <?php
-            }
-            ?>
+                while ($row1 = mysql_fetch_array($res1)) {
+                    ?>
+                    <tr><td><input type="checkbox" id="<?php echo "aor##".$row1['email']?>" name="<?php echo "aor##".$row1['email']?>" value="<?php echo "aor##".$row1['email']?>"></td><td><?= $row1['name']?></td><td><?= $row1['email']?></td></tr>
+                    <?php
+                }
+                ?>
             </table>
-        <?php
+            <?php
         }
         if (mysql_num_rows($res2) > 0) {
             ?>
             <h3 align="center">Party details</h3>
-                <table class="table table-bordered">
+            <table class="table table-bordered">
                 <tr><th>Select</th><th>Name</th><th>Email</th></tr>
                 <?php
                 while ($row2 = mysql_fetch_array($res2)) {
                     ?>
-                    <tr><td><input type="checkbox" id="<?php "party##".$row2['email']?>" name="<?= "party##".$row2['email']?>"></td><td><?php $row2['partyname']?></td><td><?= $row2['email']?></td></tr>
+                    <tr><td><input type="checkbox" id="<?php "party##".$row2['email']?>" name="<?= "party##".$row2['email']?>" value="<?= "party##".$row2['email']?>"></td><td><?php $row2['partyname']?></td><td><?= $row2['email']?></td></tr>
                     <?php
                 }
                 ?>

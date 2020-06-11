@@ -57,7 +57,7 @@ $res = getAORdetails();
             <div class="row" id="bar_member_row" align="center">
                 <div class="col">
                     <h3>Select Advocates On Record!</h3>
-
+                    <form id="barmemberform">
                     <select name="users_list" id="users_list" multiple="multiple" size="15">
 
                         <?php
@@ -67,17 +67,17 @@ $res = getAORdetails();
                         <?php }
                         ?>
                     </select>
-
+                        </form>
                     <button onclick="showHideRowDiv('showmailformfromsearch')">Click to Select</button>
                 </div>
             </div>
             <div class="row" id="case_no_row">
-                <div class="col-12">
+                <div class="col-12">                   
                     <div class="row">
                         <div class="col-sm-6">
                             <h5>Search by Diary/Case no-</h5>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6">                            
                             <label for="casenoradio">CaseNo.</label>
                             <input type="radio" name=diarycaseradio id="casenoradio" value="casenoradio"
                                    checked="checked" onchange="showhidecasediarydiv(this.value)"/>
@@ -86,8 +86,10 @@ $res = getAORdetails();
                                    onchange="showhidecasediarydiv(this.value)"/>
                         </div>
                     </div>
+                    
                         <div class="row" id="casenoformdiv">
-                            <div class="col-sm-12">
+                            
+                            <div class="col-sm-12 form-control">
                                 Case Type:
                                 <select id="selct">
                                     <option value="-1">Select</option>
@@ -99,10 +101,10 @@ $res = getAORdetails();
                                     <?php } ?>
                                 </select>&nbsp;
                             </div>
-                            <div class="col-sm-6">
-                                Case No.: <input type="text" size="6" maxlength="6" id="case_no"/>&nbsp;
+                            <div class="col-sm-6 form-control">
+                                Case No.: <input type="text"  size="6" maxlength="20" id="case_no"/>&nbsp;
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 form-control">
                                 Year:
                                 <?php $currently_selected = date('Y');
                                 $earliest_year = 1950;
@@ -115,10 +117,10 @@ $res = getAORdetails();
                             </div>
                         </div>
                         <div class="row" id="diarynoformdiv" style="display: none">
-                            <div class="col-sm-9">
+                            <div class="col-sm-6 form-control">
                                 Diary No.:<input type="text" id="dno" size="4" placeholder="Enter Diary No" "/>&nbsp;
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-6 form-control">
                                 Year:
                                 <?php $currently_selected = date('Y');
                                 $earliest_year = 1950;
@@ -130,15 +132,24 @@ $res = getAORdetails();
                                 print '</select>'; ?>
                             </div>
                         </div>
-                    <div class="row">
+                    <div class="row" align="center" style="margin-top: 10px">
                         <div class="col-12">
                         <input type="button" name="btnGetEmails" onclick="getAORPartyDetails()" value="GET Emails"/>
                         </div>
+                    
+                    </div>
+                        
+                    <div class="row" align="center">
+                         <form id="diarycasenoform">
                         <div class="col-12" id="results" style="display: none">
 
                         </div>
-                        <button onclick="showHideRowDiv('showmailformfromsdiarycaseno')">Click to Select</button>
-                    </div>
+                             </form>
+                        <div class="col-12" id="selectcasediaryemaills" style="display: none">
+                        <button style="margin-top: 10px" onclick="showHideRowDiv('showmailformfromdiarycaseno')">Click to Select</button>
+                        </div>
+                        </div>
+                        
                 </div>
             </div>
         </div>
@@ -177,7 +188,7 @@ $res = getAORdetails();
                         <div class="form-group">
                             <input name="submit" type="submit" value="Send" class="btn btn-raised btn-lg btn-warning"/>
                         </div>
-                    </form>
+                   
                 </div>
             </div>
         </div>
@@ -190,7 +201,7 @@ $res = getAORdetails();
     window.load = showHideRowDiv(0);
 
     function showHideRowDiv(id) {
-        //alert("Inside 0");
+       // alert("Inside 0");
         if (id == '0') {
             $("#inputmailrow").hide();
             $("#case_no_row").hide();
@@ -215,16 +226,15 @@ $res = getAORdetails();
 
         } else if (id == 'showmailformfromsearch') {
             var arr = [];
-            var fields = $('input[type=checkbox]:checked').serializeArray();
+            var fields = $('#barmemberform input[type=checkbox]:checked').serializeArray();
             jQuery.each(fields, function (i, field) {
                 arr.push(field.value.split('##')[1]);
             });
             $("#selectedemails").val(arr);
-        } else if (id == 'showmailformfromsdiarycaseno') {
+        } else if (id == 'showmailformfromdiarycaseno') {
             var arr = [];
-            var fields = $('input[type=checkbox]:checked').serializeArray();
-            jQuery.each(fields, function (i, field) {
-                alert(field.value.t);exit;
+            var fields = $('#diarycasenoform input[type=checkbox]:checked').serializeArray();
+            jQuery.each(fields, function (i, field) {               
                 arr.push(field.value.split('##')[1]);
             });
             $("#selectedemails").val(arr);
@@ -240,6 +250,7 @@ $res = getAORdetails();
             $("#diarynoformdiv").show();
         }
         $("#results").css({display: "none"});
+        $("#selectcasediaryemaills").css({display: "none"});
     }
 
 
@@ -362,15 +373,18 @@ $res = getAORdetails();
         $.ajax({
             type: 'POST',
             url:"./getAORPartyDetails.php",
-            beforeSend: function (xhr) {
-                $("#results").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='img/load.gif'></div>");
-            },
             data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr}
         })
             .done(function(msg){
-                $("#results").html(msg);
-               if(msg!='')
+               if(msg!=''){
+                    $("#results").html(msg);
                 $("#results").css({display: "block"});
+                $("#selectcasediaryemaills").css({display: "block"});
+                
+            }else{
+                $("#results").css({display: "none"});
+                $("#selectcasediaryemaills").css({display: "none"});
+                }
             })
             .fail(function(){
                 alert("ERROR, Please Contact Server Room");

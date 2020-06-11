@@ -102,7 +102,7 @@ $res = getAORdetails();
                                 </select>&nbsp;
                             </div>
                             <div class="col-sm-6 form-control">
-                                Case No.: <input type="text"  size="6" maxlength="20" id="case_no"/>&nbsp;
+                                Case No.: <input type="text" size="6" maxlength="20" id="case_no"/>&nbsp;
                             </div>
                             <div class="col-sm-6 form-control">
                                 Year:
@@ -186,7 +186,7 @@ $res = getAORdetails();
                                     href="javascript:addFileInput();"><span class="fa fa-paperclip"></span> Attach File</a>
                             <h6>(Max Size=4mb)</h6></div>
                         <div class="form-group">
-                            <input name="submit" type="submit" value="Send" class="btn btn-raised btn-lg btn-warning"/>
+                            <input name="submit" type="submit" value="Send" class="btn btn-raised btn-lg btn-warning" onclick="return validateEmails()"/>
                         </div>
                    
                 </div>
@@ -390,6 +390,19 @@ $res = getAORdetails();
                 alert("ERROR, Please Contact Server Room");
             });
 
+    }
+    
+    function validateEmails() {
+        var arrEmails = $("#selectedemails").val().split(",");
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        var i;
+        for(i=0;i<arrEmails.length;i++){
+            if(!emailPattern.test(arrEmails[i].trim())){
+                alert(arrEmails[i]+" - not a valid email");
+               return false;
+            }
+        }
+        return true;
     }
 
 

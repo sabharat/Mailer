@@ -60,7 +60,7 @@ function getCaseTypeDetails(){
 function getAORDetailsbyDiaryNo($diaryNumber,$diaryYear){
     $diaryNumYear = $diaryNumber.$diaryYear;
     $con = getConnection();
-    $sql = "SELECT bar.bar_id,bar.email,bar.name from bar inner join advocate on advocate.advocate_id=bar.bar_id where advocate.diary_no=".$diaryNumYear;
+    $sql = "SELECT bar.bar_id,bar.email,bar.name from bar inner join advocate on advocate.advocate_id=bar.bar_id where bar.email is not null && bar.email !='' && advocate.diary_no=".$diaryNumYear;
     $res = mysql_query($sql, $con);
 
     closeConnection($con);
@@ -70,11 +70,27 @@ function getAORDetailsbyDiaryNo($diaryNumber,$diaryYear){
 function getPartyDetailsbyDiaryNo($diaryNumber,$diaryYear){
    // $diaryNumYear = $diaryNumber.$diaryYear;
     $con = getConnection();
-    $sql = "SELECT partyname,email from party where diary_no=".$diaryNumber;
+    $sql = "SELECT partyname,email from party where email is not null && email !='' && diary_no=".$diaryNumber;
     $res = mysql_query($sql, $con);
 
     closeConnection($con);
     return $res;
+}
+
+function getAttachedFileswithInsertIds($attach_ids_str){
+    $con = getConnection();
+    $sql = "SELECT file_path, file_name from mailer_attachments where id IN (".$attach_ids_str.")";
+
+    $res = mysql_query($sql, $con);
+
+    $files = array();
+    if(mysql_num_rows($res)>0){
+        while($row = mysql_fetch_array($res)){
+            array_push($files, $row['file_path'].$row['file_name']);
+        }
+    }
+    closeConnection($con);
+    return $files;
 }
 
 ?>

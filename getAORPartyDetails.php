@@ -63,9 +63,6 @@ CAST(" . $_REQUEST['cn'] . " AS UNSIGNED) BETWEEN (SUBSTRING_INDEX(SUBSTRING_IND
             $get_dno = mysql_fetch_array($get_dno);
             $_REQUEST['d_no'] = $get_dno['dn'];
             $_REQUEST['d_yr'] = $get_dno['dy'];
-            $sql_ct_type = mysql_query("Select short_description from casetype where casecode='" . $_REQUEST['ct'] . "' and display='Y'") or die("Error" . __LINE__ . mysql_error());
-            $res_ct_typ = mysql_result($sql_ct_type, 0);
-            $t_slpcc = $res_ct_typ . " " . $get_dno['crf1'] . " - " . $get_dno['crl1'] . " / " . $_REQUEST['cy'];
         } else {
             ?>
             <p align=center><font color=red>Case Not Found</font></p>
